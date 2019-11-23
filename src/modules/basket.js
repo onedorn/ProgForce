@@ -2,8 +2,11 @@ import { createElement } from './generate';
 
 const rootNode = document.getElementById('root');
 
-function renderBasketPage () {
-    return rootNode.innerHTML = 'Hello from Basket page'
+class Basket {
+  constructor() {}
+  renderBasketPage() {
+    rootNode.innerHTML = '';
+  }
 }
 
-export {renderBasketPage}
+export { Basket };

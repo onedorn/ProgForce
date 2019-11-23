@@ -10,6 +10,7 @@
   "author": "Volodymyr Syvoraksha",
   "license": "ISC",
   "devDependencies": {
+    "axios": "^0.19.0",
     "babel-core": "^6.26.3",
     "babel-loader": "7",
     "babel-preset-env": "^1.7.0",
