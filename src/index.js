@@ -8,9 +8,6 @@ const admin = new Admin();
 const customer = new Customer();
 const basket = new Basket();
 
-admin.getItemsFromDB();
-admin.renderAdminPage();
-
 const ADMIN_URL = (location.hash = '#/admin/');
 const BASKET_URL = (location.hash = '#/basket/');
 const CUSTOMER_URL = (location.hash = '#/client');
