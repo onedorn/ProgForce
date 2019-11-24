@@ -17,8 +17,7 @@ const setHashForAdminPage = () => {
   window.location.hash = ADMIN_URL;
 };
 const setHashForAdminPanelPage = () => (window.location.hash = ADMIN_PANEL_URL);
-const setHashForAdminEditPanelPage = () =>
-  (window.location.hash = ADMIN_EDIT_PANEL_URL);
+const setHashForAdminEditPanelPage = () => (window.location.hash = ADMIN_EDIT_PANEL_URL);
 const setHashForCustomerPage = () => (window.location.hash = CUSTOMER_URL);
 
 const renderPageOnHashChange = () => {
@@ -100,16 +99,20 @@ function renderTableHead(goods) {
   let tbody = createElement('tbody', '', '', table);
   goods.map(item => {
     let tr2 = createElement('tr', '', '', tbody);
-    let td1 = createElement('td', '', item.id, tr2);
+    let td1 = createElement('td', '', item.code, tr2);
     let td2 = createElement('td', '', item.name, tr2);
     let td3 = createElement('td', '', item.description, tr2);
     let td4 = createElement('td', '', `${item.price} uah`, tr2);
     let td5 = createElement('td', '', item.available ? 'in stock' : 'run out', tr2);
-    let td6 = createElement('td', '', item.img, tr2);
+
+    let td6 = createElement('td', '', '', tr2);
+    let img = createElement('i', `${item.img} ml-3 text-danger`, '', td6);
+
+    
     let td7 = createElement('td', '', '', tr2);
-    let deleteIcon = createElement('i', 'fas fa-trash', '', td7);
-    let cartIcon = createElement('i', 'fas fa-shopping-bag ml-2 mr-2', '', td7);
-    let editIcon = createElement('i', 'fas fa-edit', '', td7);
+    let deleteIcon = createElement('i', 'fas fa-trash text-dark', '', td7);
+    let cartIcon = createElement('i', 'fas fa-cart-arrow-down text-primary ml-2 mr-2', '', td7);
+    let editIcon = createElement('i', 'fas fa-edit text-secondary', '', td7);
 
     deleteIcon.addEventListener('click', () => {
       deleteItemFromDB(item.id);
@@ -123,12 +126,9 @@ function renderTableHead(goods) {
   });
 
   if (!goods.length) {
-    let alert = createElement(
-      'p',
+    let alert = createElement( 'p',
       'container text-center bg-light border p-2',
-      "Currently you don't have any of the item available in the store.",
-      rootNode
-    );
+      "Currently you don't have any of the item available in the store.", rootNode);
     let warn = createElement('i', 'fas fa-exclamation-circle ml-2', '', alert);
   }
 }
@@ -136,14 +136,14 @@ function renderTableHead(goods) {
 function renderAdminPanelPage() {
   rootNode.innerHTML = '';
   renderHeader();
-  let form = createElement('form', 'container mt-5', '', rootNode);
 
+  let form = createElement('form', 'container mt-5', '', rootNode);
   let div1 = createElement('div', 'mb-3', '', form);
   let label1 = createElement('label', '', 'Code', div1);
   label1.setAttribute('for', 'validationServer01');
   let input1 = createElement('input', 'form-control', '', div1);
   selectedItem 
-    ? (input1.value = selectedItem.id) 
+    ? (input1.value = selectedItem.code) 
     : (input1.value = '');
   input1.setAttribute('type', 'text');
   input1.id = 'validationServer01';
@@ -182,7 +182,7 @@ function renderAdminPanelPage() {
     ? (input4.value = selectedItem.img) 
     : (input4.value = '');
   input4.setAttribute('type', 'text');
-  input4.setAttribute('placeholder', 'Image');
+  input4.setAttribute('placeholder', 'Font awesome class');
   input4.setAttribute('required', '');
   input4.id = 'validationServer04';
 
@@ -224,7 +224,7 @@ function renderAdminPanelPage() {
       code: input1.value,
       name: input2.value,
       price: input3.value,
-      image: input4.value,
+      img: input4.value,
       available: input5.checked,
       description: textarea.value
     };
@@ -237,7 +237,7 @@ function renderAdminPanelPage() {
       code: input1.value,
       name: input2.value,
       price: input3.value,
-      image: input4.value,
+      img: input4.value,
       available: input5.checked,
       description: textarea.value
     };
