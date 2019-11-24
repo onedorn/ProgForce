@@ -4,6 +4,7 @@ import './scss/main.scss';
 
 const rootNode = document.getElementById('root');
 let goods = [];
+let cartItem = [];
 let selectedItem = null;
 
 /************************* HASHING URL *****************************/
@@ -104,11 +105,8 @@ function renderTableHead(goods) {
     let td3 = createElement('td', '', item.description, tr2);
     let td4 = createElement('td', '', `${item.price} uah`, tr2);
     let td5 = createElement('td', '', item.available ? 'in stock' : 'run out', tr2);
-
     let td6 = createElement('td', '', '', tr2);
-    let img = createElement('i', `${item.img} ml-3 text-danger`, '', td6);
-
-    
+    let img = createElement('i', `${item.img} ml-2 text-danger`, '', td6);
     let td7 = createElement('td', '', '', tr2);
     let deleteIcon = createElement('i', 'fas fa-trash text-dark', '', td7);
     let cartIcon = createElement('i', 'fas fa-cart-arrow-down text-primary ml-2 mr-2', '', td7);
@@ -123,6 +121,11 @@ function renderTableHead(goods) {
       selectedItem = item;
       setHashForAdminEditPanelPage();
     });
+
+    cartIcon.addEventListener('click', () => {
+      cartItem.push(item);
+      console.log(cartItem);
+    })
   });
 
   if (!goods.length) {
@@ -241,13 +244,34 @@ function renderAdminPanelPage() {
       available: input5.checked,
       description: textarea.value
     };
-
     editItemOnDB(selectedItem.id, edited);
     setHashForAdminPage();
   });
 }
 
+/*************************** CLIENT PAGE COMPONENTS **************************/
 function renderCustomerPage() {
   rootNode.innerHTML = '';
   renderHeader();
+  renderCustomerPageBasket();
+}
+
+function renderCustomerPageBasket () {
+  let totalPrice = cartItem.map(i => i.price).reduce((a, c) => +a + +c, 0);
+  
+  let div = createElement('div', 'container cart-btn text-center', '', rootNode)
+  let btn = createElement('button', 'btn btn-outline-dark mb-3 pl-5 pr-5', `${totalPrice} uah`, div);
+  let cart = createElement('i', 'fas fa-shopping-cart ml-3', '', btn)
+  
+  cartItem.map(cart => {
+    let purchase = createElement('div', 'container border-secondary card w-50 mb-2', '', rootNode);
+    let card = createElement('div', 'card-body', '', purchase);
+    let row = createElement('div', 'row', '', card);
+    let col = createElement('col', 'col-4 card-section', '', row);
+    let img = createElement('i', `${cart.img} text-danger cart-item`, '', col);
+    let col2 = createElement('div', 'col-4 card-section', '', row);
+    let desc = createElement('p', 'font-weight-bold text-uppercase', `${cart.description}`, col2)
+    let col3 = createElement('div', 'col-4 card-section', '', row);
+    let span = createElement('span', 'font-weight-bold', `${cart.price} uah`, col3)
+  })
 }
